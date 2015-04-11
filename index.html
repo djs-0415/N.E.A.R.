@@ -1,86 +1,96 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
+  <head>
+    <meta charset="utf-8" />
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
-.node {
-  font: 10px sans-serif;
-}
+    <style>
+      .orbit {
+        stroke : #000000;
+        fill : none;
+      }
+      .planet {
+        stroke : #000000;
+        fill : #FFFFFF;
+      }
+      .sun {
+        stroke : #000000;
+        fill : #000000;
+      }
+    </style>
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
+  </head>
+  <body>
 
-</style>
+    <div id="planetarium"></div>
 
-<body>
+    <script type="text/javascript">
+      var w = 1024, h = 1024;
+      var tempTime = Date.now();
 
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
-<script>
-
-var diameter = 720;
-
-var tree = d3.layout.tree()
-    .size([360, diameter / 2 - 120])
-    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
-
-var diagonal = d3.svg.diagonal.radial()
-    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
-
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter - 150)
-  .append("g")
-    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
-d3.json("neo.json", function(error, root) 
-{
-  var nodes = tree.nodes(root),
-      links = tree.links(nodes);
-
-  // To link stuff together
-  /*
-  var link = svg.selectAll(".link")
-      .data(links)
-    .enter().append("path")
-      .attr("class", "link")
-      .attr("d", diagonal);
-  */
-
-  var node = svg.selectAll(".node")
-      .data(nodes)
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+      var planets = [
+        { range: 300, radius: 2.5, speed: 0.1, phi: 90},
+        { range: 200, radius: 5, speed: 0.2, phi: 140},
+        { range: 150, radius: 10, speed: 1, phi: 190}
+      ];
 
 
-  node.append("image")
+      var svg = d3.select("#planetarium")
+      .insert("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      /* Sun display controls */
+      svg.append("image")
+      .attr("class", "sun")
+        .attr("xlink:href", function(d) { return "./images/sun.png"; })
+        .attr("x", w/2)
+        .attr("y", h/2)
+        .attr("width", "96px")
+        .attr("height", "96px");
       
-      .attr("xlink:href", function(d) { return "./images/asteroid.png"; })
-      .attr("x", function(d) { return d.x; })
-      .attr("y", function(d) { return d.y; })
-      .attr("width", "24px")
-      .attr("height", "24px");
+      var container = svg.append("g")
+        .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
 
-  node.append("text")
-      .attr("dy", ".31em")
-      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-      .text(function(d) { return d.name; });
-});
+      container.selectAll("g.planet")
+      .data(planets)
+      // Enter data reference Planets to do stuff
+      .enter()
+      .append("g")
+        .attr("class", "planet")
 
-d3.select(self.frameElement).style("height", diameter - 150 + "px");
+        // For each set of data
+        .each(function(d, i) {
+          
+          // Creates lines to display orbit
+          d3.select(this)
+          .append("circle")
+          .attr("class", "orbit")
+            .attr("r", d.range);
+            
+          // Creates asteroids
+          d3.select(this)
+          .append("image")
+          .attr("class", "planet")
+              .attr("xlink:href", function(d) { return "./images/asteroid.png"; })
+              .attr("x", d.range)
+              .attr("y", 0)
+              .attr("width", "24px")
+              .attr("height", "24px");
+        });
 
-</script>
+      // Timer which controls orbit path
+      d3.timer(function() {
+        var currentTime = (Date.now() - tempTime);
+        svg.selectAll(".planet")
+        .attr("transform", function(d) {
+          return "rotate(" + d.phi + currentTime * d.speed/200 + ")";
+        });
+      });
 
-</body>
+    </script>
+
+  </body>
 
 </html>
