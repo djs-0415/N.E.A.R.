@@ -10,13 +10,55 @@
         stroke : #000000;
         fill : none;
       }
-      .planet {
+      .neos {
         stroke : #000000;
         fill : #FFFFFF;
       }
       .sun {
         stroke : #000000;
         fill : #000000;
+      }
+      #tooltip-Container {
+        position: absolute;
+        bottom: 0;
+        width: 230px;
+        left: -115px; /* 230/2*/
+        font-size: 12px;
+        line-height: 16px;
+        padding: 10px;
+        border-radius: 3px;
+        background: rgba(255,255,255,0.9);
+        color: #000;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);  
+        border:1px solid rgba(200,200,200,0.85);
+        text-align:center;
+        cursor: default;
+      }
+
+      #tooltip {
+        text-align:center;  
+        z-index: 1000;
+        position: absolute;
+        opacity: 0;
+      }
+
+      #tooltip .tooltip-neo {
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        text-align: left;
+        font-size: 16px;
+        margin-bottom: 4px;
+        color:#333333;
+        text-align:center;  
+      }
+
+      #tooltip .tooltip-distance{
+        color:#666;
+        font-size: 11px;   
+        text-align:center; 
+        margin-bottom: 6px;  
+        font-style:italic;
       }
     </style>
 
@@ -25,17 +67,31 @@
 
     <div id="planetarium"></div>
 
+    <!-- Tooltip Div Structure -->
+    <div id="tooltip">
+      <div id="tooltip-Container">
+        <div class="tooltip-neo"></div>
+        <div class="tooltip-distance"></div>
+      </div>
+    </div>
+
     <script type="text/javascript">
       var w = 1024, h = 1024;
+
       var tempTime = Date.now();
 
-      var planets = [
-        { range: 300, radius: 2.5, speed: 0.1, phi: 90},
+      var stopTooltip = false;
+
+      var neos = [
+        // NEOs > 0.1 AUs away
+        { range: 300, radius: 2.5, speed: 0.1, phi: 90, name: "2015FQ", distance: 0.0709},
+        // NEOs >= 0.05 AUs away
         { range: 200, radius: 5, speed: 0.2, phi: 140},
+        // NEOs < 0.05 AUs away
         { range: 150, radius: 10, speed: 1, phi: 190}
       ];
 
-
+      // Create SVG
       var svg = d3.select("#planetarium")
       .insert("svg")
         .attr("width", w)
@@ -53,12 +109,12 @@
       var container = svg.append("g")
         .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
 
-      container.selectAll("g.planet")
-      .data(planets)
+      container.selectAll("g.neos")
+      .data(neos)
       // Enter data reference Planets to do stuff
       .enter()
       .append("g")
-        .attr("class", "planet")
+        .attr("class", "neos")
 
         // For each set of data
         .each(function(d, i) {
@@ -72,24 +128,37 @@
           // Creates asteroids
           d3.select(this)
           .append("image")
-          .attr("class", "planet")
+          .attr("class", "neos")
               .attr("xlink:href", function(d) { return "./images/asteroid.png"; })
               .attr("x", d.range)
               .attr("y", 0)
               .attr("width", "24px")
-              .attr("height", "24px");
+              .attr("height", "24px")
+              .on("mouseover", function(d) 
+              {
+
+                stopTooltip = false
+                showTooltip(d);
+              });
         });
+
+      // Remove tooltip on click
+      d3.select("svg")
+        .on("click", function(d) { stopTooltip = true; });
 
       // Timer which controls orbit path
       d3.timer(function() {
         var currentTime = (Date.now() - tempTime);
-        svg.selectAll(".planet")
+        svg.selectAll(".neos")
         .attr("transform", function(d) {
           return "rotate(" + d.phi + currentTime * d.speed/200 + ")";
         });
       });
 
     </script>
+
+    <!-- Attached scripts -->
+    <script src="js/showTooltip.js"></script>
 
   </body>
 

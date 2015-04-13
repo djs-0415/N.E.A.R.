@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"too",
+				"tooltip"
+			],
+			[
+				"vi",
+				"visiblity"
+			],
+			[
+				"tool",
+				"tooltipInfo"
+			],
+			[
+				"te",
+				"tempTime"
+			],
+			[
+				"back",
+				"background-image"
+			],
+			[
 				"fu",
 				"function"
 			]
@@ -15,8 +35,17 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 1919,
+				"buffer_size": 2583,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/showTooltip.js",
+			"settings":
+			{
+				"buffer_size": 1212,
+				"line_ending": "Windows",
+				"name": "function showTooltip(d)"
 			}
 		}
 	],
@@ -61,10 +90,13 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/djs04_000/Documents/Sites/NearEarthApproachesRadar"
+		"/C/Users/djs04_000/Documents/Sites/N.E.A.R"
 	],
 	"file_history":
 	[
+		"/C/Users/djs04_000/Documents/Sites/N.E.A.R/indexOld.html",
+		"/C/Users/djs04_000/Documents/Sites/N.E.A.R/neo.json",
+		"/C/Users/djs04_000/Documents/Sites/N.E.A.R/index.html",
 		"/C/Users/djs04_000/Documents/Sites/NearEarthApproachesRadar/css/style.css",
 		"/C/Users/djs04_000/Documents/Sites/NearEarthApproachesRadar/neo.json",
 		"/C/Users/djs04_000/Documents/Sites/NearEarthApproachesRadar/d3/d3.js",
@@ -73,7 +105,7 @@
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 30.0
 	},
 	"find_in_files":
 	{
@@ -114,26 +146,59 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1919,
+						"buffer_size": 2583,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								656,
-								656
+								472,
+								472
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"spell_check": true,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1716.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/showTooltip.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1212,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1210,
+								1209
+							]
+						],
+						"settings":
+						{
+							"auto_name": "function showTooltip(d)",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4
+						},
+						"translation.x": 0.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -141,7 +206,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 30.0
 	},
 	"input":
 	{
@@ -178,7 +243,7 @@
 	"project": "ProjectSettings.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 56.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -216,7 +281,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 204.0,
+	"side_bar_width": 63.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
